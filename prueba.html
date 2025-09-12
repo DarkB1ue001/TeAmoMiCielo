@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Feliz San Valentín, Mi Amor ❤️</title>
+    <!-- Importar la fuente Dancing Script desde Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Dancing Script', cursive; /* Fuente romántica */
+            background-color: rgb(63, 3, 7); /* Fondo rojito */
+            text-align: center;
+            padding: 20px;
+            overflow-x: hidden; /* Evitar desplazamiento horizontal */
+            overflow-y: auto; /* Activar desplazamiento vertical */
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center; /* Centrar horizontalmente */
+            justify-content: flex-start; /* Alinear el contenido al inicio para permitir el desplazamiento */
+            min-height: 100vh; /* Asegurar que ocupe toda la altura de la pantalla */
+        }
+        h1 {
+            color: white; /* Color del texto en blanco */
+            margin-top: 20px;
+            position: relative; /* Asegurar que esté por encima de los corazones */
+            z-index: 3; /* Valor alto para estar por encima */
+            font-size: 3em; /* Aumentar un poco el tamaño de la fuente */
+        }
+        p {
+            color: white; /* Color del texto en blanco */
+            font-size: 1.5em; /* Tamaño más grande para mayor legibilidad */
+            text-align: justify; /* Justificar el texto */
+            position: relative; /* Asegurar que esté por encima de los corazones */
+            z-index: 3; /* Valor alto para estar por encima */
+            max-width: 800px; /* Limitar el ancho del texto */
+            line-height: 1.6; /* Espacio entre líneas */
+        }
+        img {
+            width: 50%; /* Reducir el tamaño de la imagen al 50% */
+            border-radius: 10px;
+            margin-top: 20px; /* Espacio superior */
+            max-width: 400px; /* Limitar el ancho máximo de la imagen */
+            position: relative; /* Asegurar que esté por encima de los corazones */
+            z-index: 3; /* Valor alto para estar por encima */
+        }
+        /* Estilos para el reproductor de audio */
+        audio {
+            display: none; /* Ocultar el reproductor de audio */
+        }
+        /* Estilos para los corazones flotantes */
+        .heart {
+            position: absolute;
+            background-color: red;
+            transform: rotate(-45deg);
+            animation: float 12s infinite ease-in-out; /* Animación más lenta */
+            z-index: 1; /* Valor bajo para estar detrás de todo */
+        }
+        .heart::before,
+        .heart::after {
+            content: "";
+            position: absolute;
+            background-color: red;
+            border-radius: 50%;
+        }
+        .heart::before {
+            top: -50%; /* Ajuste proporcional */
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+        .heart::after {
+            top: 0;
+            left: 50%; /* Ajuste proporcional */
+            width: 100%;
+            height: 100%;
+        }
+        @keyframes float {
+            0% {
+                transform: translateY(100vh) scale(0.5) rotate(-45deg);
+                opacity: 0;
+            }
+            50% {
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-100vh) scale(1.2) rotate(-45deg); /* Sube hasta la parte superior */
+                opacity: 0;
+            }
+        }
+        /* Estilos para el mensaje de interacción */
+        #message {
+            color: white;
+            font-size: 1.2em;
+            margin-top: 20px;
+            position: relative;
+            z-index: 3;
+        }
+    </style>
+</head>
+<body>
+    <!-- Texto -->
+    <h1>Hola Mi Pedacito de Cielo ❤️</h1>
+    <p>Hola niña del alimentador, espero que hayas pasado un grandioso día y que todo te haya ido súper. Sé que es tarde, pero hace rato que no programaba y ando un poco lento. Quizá las fechas especiales no han sido como esperaba últimamente, sin embargo no quiero que eso te haga olvidar lo importante que eres para mí. Te llevo en mi mente y en mi corazón todos los días. Aún sigues siendo mi motivación para no rendirme y, por supuesto, la mujer que quiero a mi lado: orgullosa, odiosa, brava a ratos, pero, sin duda, increíble y maravillosa. Te admiro muchísimo y siempre voy a creer en ti, en tu fuerza y en esas ganas imparables que tienes de lograr todo lo que te propones y comerte el mundo. I love you, mi blanquita.</p>
+
+    <p>Con amor, tu Angel.</p>
+
+    <!-- Imagen centrada -->
+    <img src="https://github.com/DarkB1ue001/TeAmoMiCielo/blob/71eca11149303b4529bda20c5a8e8917175dc8bc/WithMyLove.jpg" alt="Imagen romántica">
+
+    <!-- Reproductor de audio (oculto) -->
+    <audio id="audio" loop>
+        <source src="" type="audio/mpeg">
+        Tu navegador no soporta audio.
+    </audio>
+
+    <!-- Script para generar corazones flotantes y manejar la interacción -->
+    <script>
+        // Función para iniciar el audio
+        function playAudio() {
+            const audio = document.getElementById("audio");
+            if (audio.paused) {
+                audio.play();
+            }
+        }
+
+        // Detectar interacción con la página
+        document.body.addEventListener("click", playAudio);
+        document.body.addEventListener("touchstart", playAudio); // Para dispositivos móviles
+
+        // Generar corazones flotantes
+        function createHearts() {
+            for (let i = 0; i < 20; i++) {
+                let heart = document.createElement("div");
+                heart.classList.add("heart");
+
+                // Tamaño aleatorio del corazón
+                const size = Math.random() * 30 + 15; /* Entre 15px y 45px */
+                heart.style.width = `${size}px`;
+                heart.style.height = `${size}px`;
+
+                // Posición horizontal aleatoria
+                heart.style.left = Math.random() * 100 + "vw";
+
+                // Duración de la animación aleatoria (más lenta)
+                heart.style.animationDuration = (Math.random() * 8 + 8) + "s";
+
+                document.body.appendChild(heart);
+                setTimeout(() => heart.remove(), 12000); /* Eliminar el corazón después de 12 segundos */
+            }
+        }
+        setInterval(createHearts, 1000); /* Crear corazones cada segundo */
+    </script>
+</body>
+</html>
