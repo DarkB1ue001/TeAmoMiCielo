@@ -25,16 +25,16 @@
             color: white; /* Color del texto en blanco */
             margin-top: 20px;
             position: relative; /* Asegurar que esté por encima de los corazones */
-            z-index: 3; /* Valor alto para estar por encima */
+            z-index: 20; /* Valor alto para estar por encima de tulipanes y corazones */
             font-size: 3em; /* Aumentar un poco el tamaño de la fuente */
         }
         p {
             color: white; /* Color del texto en blanco */
-            font-size: 1.5em; /* Tamaño más grande para mayor legibilidad */
+            font-size: 2em; /* Tamaño más grande para mayor legibilidad */
             text-align: justify; /* Justificar el texto */
             position: relative; /* Asegurar que esté por encima de los corazones */
-            z-index: 3; /* Valor alto para estar por encima */
-            max-width: 800px; /* Limitar el ancho del texto */
+            z-index: 20; /* Valor alto para estar por encima de tulipanes y corazones */
+            max-width: 1000px; /* Limitar el ancho del texto */
             line-height: 1.6; /* Espacio entre líneas */
         }
         img {
@@ -43,7 +43,7 @@
             margin-top: 20px; /* Espacio superior */
             max-width: 400px; /* Limitar el ancho máximo de la imagen */
             position: relative; /* Asegurar que esté por encima de los corazones */
-            z-index: 3; /* Valor alto para estar por encima */
+            z-index: 20; /* Valor alto para estar por encima de tulipanes y corazones */
         }
         /* Estilos para el reproductor de audio */
         audio {
@@ -52,6 +52,7 @@
         /* Estilos para los corazones flotantes */
         .heart {
             position: absolute;
+            bottom: 0;
             background-color: red;
             transform: rotate(-45deg);
             animation: float 12s infinite ease-in-out; /* Animación más lenta */
@@ -78,14 +79,14 @@
         }
         @keyframes float {
             0% {
-                transform: translateY(100vh) scale(0.5) rotate(-45deg);
+                transform: translateY(0) scale(0.5) rotate(-45deg);
                 opacity: 0;
             }
             50% {
                 opacity: 1;
             }
             100% {
-                transform: translateY(-100vh) scale(1.2) rotate(-45deg); /* Sube hasta la parte superior */
+                transform: translateY(-250vh) scale(1.2) rotate(-45deg); /* Sube hasta la parte superior */
                 opacity: 0;
             }
         }
@@ -95,16 +96,121 @@
             font-size: 1.2em;
             margin-top: 20px;
             position: relative;
+            z-index: 20;
+        }
+        
+        /* --- Tulipanes --- */
+        #tulips-container {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 35vh;
+            pointer-events: none;
+            z-index: 5; /* Detrás del texto pero delante de los corazones */
+        }
+
+        .tulip {
+            position: absolute;
+            bottom: 0;
+            width: 6px;
+            height: 0;
+            background: linear-gradient(to top, #1b5e20 0%, #2e7d32 30%, #66bb6a 100%);
+            border-radius: 3px 3px 0 0;
+            animation: grow 6s ease-out forwards;
+            transform-origin: bottom center;
+        }
+
+        /* Flor del tulipán con forma más realista */
+        .tulip .flower {
+            position: absolute;
+            bottom: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            width: calc(35px * var(--size-factor, 1));
+            height: calc(45px * var(--size-factor, 1));
+            background: radial-gradient(ellipse at top, #ffeb3b 0%, #fdd835 40%, #fbc02d 100%);
+            border-radius: 50% 50% 40% 40% / 60% 60% 40% 40%;
+            opacity: 0;
+            animation: bloom 6s ease-out forwards;
+            box-shadow: 0 -3px 6px rgba(0,0,0,0.1);
+            z-index: 2;
+        }
+
+        /* Detalle interior del tulipán */
+        .tulip .flower::before {
+            content: "";
+            position: absolute;
+            bottom: 5px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 40%;
+            height: 60%;
+            background: linear-gradient(to bottom, #ffd54f 0%, #ffb300 100%);
+            border-radius: 40% 40% 60% 60%;
             z-index: 3;
+        }
+
+        /* HOJAS MEJORADAS - Forma más realista */
+        .tulip .leaf {
+            position: absolute;
+            width: calc(30px * var(--size-factor, 1));
+            height: calc(25px * var(--size-factor, 1));
+            background: linear-gradient(to right, #2e7d32 0%, #4caf50 100%);
+            border-radius: 50% 50% 50% 0;
+            bottom: 30%;
+            left: -12px;
+            transform: rotate(-15deg);
+            opacity: 0;
+            animation: leaf-grow 6s ease-out forwards;
+            z-index: 1;
+            /* Forma de hoja más orgánica */
+            clip-path: path("M0,0 C30,0 25,20 15,25 C5,20 0,10 0,0 Z");
+        }
+
+        /* Segunda hoja en algunos tulipanes */
+        .tulip .leaf.second {
+            left: auto;
+            right: -12px;
+            transform: rotate(15deg) scaleX(-1);
+            bottom: 40%;
+            clip-path: path("M0,0 C30,0 25,20 15,25 C5,20 0,10 0,0 Z");
+        }
+
+        @keyframes grow {
+            0%   { height: 0; }
+            100% { height: calc(140px * var(--height-factor, 1)); }
+        }
+
+        @keyframes bloom {
+            0%   { opacity: 0; transform: translateX(-50%) scale(0.3) translateY(20px); }
+            70%  { opacity: 0.8; transform: translateX(-50%) scale(1.05) translateY(0); }
+            100% { opacity: 1; transform: translateX(-50%) scale(1) translateY(0); }
+        }
+
+        @keyframes leaf-grow {
+            0%   { opacity: 0; transform: rotate(-15deg) scale(0.5); }
+            100% { opacity: 0.9; transform: rotate(-15deg) scale(1); }
+        }
+
+        /* Movimiento suave con el viento */
+        @keyframes sway {
+            0%, 100% { transform: rotate(0deg); }
+            50% { transform: rotate(3deg); }
         }
     </style>
 </head>
 <body>
     <!-- Texto -->
     <h1>Hola Mi Pedacito de Cielo</h1>
-    <p>asdasd</p>
-
-    <p>Con amor, tu Angel.</p>
+    <p>Por donde empezar… Ah si, por el principio<br>
+Creo que no hay historia de amor más bonita que aquella que empieza sin buscarla, donde sin tener ganas de estar con alguien llega una persona y se convierte en tu todo. Así me paso contigo mi niña, y si miro en retrospectiva es algo loco. Siempre tuvimos química, pero no creí que encajaríamos tan rápido y en tan poco tiempo.<br> 
+Supongo que todo lo que pasamos antes de ser nosotros tenia que ser así, construirnos en solitario para poder crecer juntos, y pese a que me hubiera gustado evitarte tantas cosas feas que te pasaron, tengo la certeza de que nunca mas dejare que algo malo te ocurra, porque no hay sentimientos mas lindos que los que tu me inspiras. Eres ese rayito de sol que te calienta cuando tienes frio, que te ilumina cuando esta sombrío, y que te arrulla como una suave melodía cuando estas dormido, eres sin duda alguna lo más bonito que tengo y por eso quiero cuidarte siempre, para que me dures toda la vida.<br> 
+No podría estar más agradecido con Dios, el destino, la vida o como quieras llamarle… solo se que me premio contigo. Eres tan maravillosa, tan sublime, que a veces no me lo creo, porque encontrar con quien quieras pasar el resto de tu vida es algo que muchos buscan y pocos encuentran.<br> 
+Como quisiera decirle a mi yo de haces unos años que se sentía solo y sufrio tanto, que sí, que encontramos esa chica que esperábamos, a una mujer fuerte, resiliente y valiente, que al igual que yo, nunca se dejo vencer y prefirió mantener su esencia antes que ceder ante la adversidad. Gracias mi amor por no rendirte y dar siempre dar lo mejor de ti, incluso cuando la vida te golpea con todo. No podría estar más orgulloso de ti: de lo inteligente, fuerte, empática, protectora, considerada, valiente, noble y llena de luz que eres. jamás dudes de ti y del gran ser humano que has construido con cada una de esas experiencias que te han marcado y has sobrellevado como una campeona a lo largo de tus casi 26 añitos.<br>
+El futuro a veces me da miedo, tan incierto, tan cambiante… Solo se que te quiero a ti en él, y que espero lograr todo a tu lado, porque en nuestro camino habrá muchos altos y bajos, pero mientras sostengas mi mano, no hay obstáculo que no podamos superar. Somos un gran equipo, y en todo lo que nos propongamos vamos a triunfar. Te amo mucho mi pedacito de cielo, de felicidad.<br>
+Con amor, tu Angel. 
+</p>
 
     <!-- Imagen centrada -->
     <img src="IMG_20250830_144552.jpg" alt="Imagen romántica">
@@ -114,7 +220,10 @@
         <source src="TheFirstTime.mp3" type="audio/mpeg">
     </audio>
 
-    <!-- Script para generar corazones flotantes y manejar la interacción -->
+    <!-- Jardín de tulipanes -->
+    <div id="tulips-container"></div>
+
+    <!-- Script para generar corazones flotantes, tulipanes y manejar la interacción -->
     <script>
         // Función para iniciar el audio
         function playAudio() {
@@ -150,6 +259,55 @@
             }
         }
         setInterval(createHearts, 1000); /* Crear corazones cada segundo */
+
+        // Crear tulipanes
+        const tulipsContainer = document.getElementById("tulips-container");
+        const tulipCount = 65; // Más tulipanes
+        
+        // Crear tulipanes distribuidos uniformemente
+        for (let i = 0; i < tulipCount; i++) {
+            const t = document.createElement("div");
+            t.className = "tulip";
+            
+            // Distribuir uniformemente a lo largo del ancho
+            const position = (i / tulipCount) * 100;
+            const variation = (Math.random() - 0.5) * 3; // Pequeña variación
+            t.style.left = `calc(${position}% + ${variation}vw)`;
+            
+            // Variación de altura
+            const heightFactor = 0.7 + Math.random() * 0.6;
+            t.style.setProperty('--height-factor', heightFactor);
+            
+            // Variación de tamaño de flor
+            const sizeFactor = 0.8 + Math.random() * 0.4;
+            t.style.setProperty('--size-factor', sizeFactor);
+            
+            // Variación en el tiempo de animación
+            t.style.animationDelay = (Math.random() * 4) + "s";
+            
+            // Crear la flor
+            const flower = document.createElement("div");
+            flower.className = "flower";
+            t.appendChild(flower);
+            
+            // Añadir hojas a todos los tulipanes
+            const leaf1 = document.createElement("div");
+            leaf1.className = "leaf";
+            t.appendChild(leaf1);
+            
+            // Algunos tulipanes tendrán segunda hoja
+            if (Math.random() > 0.3) {
+                const leaf2 = document.createElement("div");
+                leaf2.className = "leaf second";
+                t.appendChild(leaf2);
+            }
+            
+            // Añadir ligero movimiento con el viento
+            t.style.animation = `grow 6s ease-out forwards, sway ${8 + Math.random() * 5}s ease-in-out infinite`;
+            t.style.animationDelay = `${Math.random() * 2}s, ${Math.random() * 5}s`;
+            
+            tulipsContainer.appendChild(t);
+        }
     </script>
 </body>
 </html>
